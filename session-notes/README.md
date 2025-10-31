@@ -1,39 +1,39 @@
 # Session Notes
 
-Aplicación web para gestionar notas de sesiones construida con React, TypeScript, Material-UI y Supabase.
+Web application for managing session notes built with React, TypeScript, Material-UI, and Supabase.
 
-## a. Instrucciones de Setup
+## a. Setup Instructions
 
-### Prerrequisitos
+### Prerequisites
 
-- Node.js (versión 18 o superior)
-- npm o yarn
-- Una cuenta de Supabase con un proyecto configurado
+- Node.js (version 18 or higher)
+- npm or yarn
+- A Supabase account with a configured project
 
-### Pasos de instalación
+### Installation Steps
 
-1. **Instalar dependencias:**
+1. **Install dependencies:**
 
    ```bash
    npm install
    ```
 
-2. **Configurar variables de entorno:**
-   Crea un archivo `.env` en la raíz del proyecto `session-notes/` con las siguientes variables:
+2. **Configure environment variables:**
+   Create a `.env` file in the project root `session-notes/` with the following variables:
 
    ```env
-   VITE_SUPABASE_URL=tu_url_de_supabase
-   VITE_SUPABASE_KEY=tu_clave_publica_de_supabase
+   VITE_SUPABASE_URL=your_supabase_url
+   VITE_SUPABASE_KEY=your_supabase_public_key
    ```
 
-   Puedes encontrar estas credenciales en tu proyecto de Supabase en:
+   You can find these credentials in your Supabase project at:
 
-   - Settings → API → Project URL (para `VITE_SUPABASE_URL`)
-   - Settings → API → Project API keys → `anon` `public` key (para `VITE_SUPABASE_KEY`)
+   - Settings → API → Project URL (for `VITE_SUPABASE_URL`)
+   - Settings → API → Project API keys → `public` key (for `VITE_SUPABASE_KEY`)
 
-3. **Configurar la base de datos en Supabase:**
+3. **Set up the database in Supabase:**
 
-   Ejecuta el siguiente SQL en el SQL Editor de Supabase para crear la tabla necesaria:
+   Run the following SQL in Supabase's SQL Editor to create the required table:
 
    ```sql
    CREATE TABLE session_notes (
@@ -45,86 +45,86 @@ Aplicación web para gestionar notas de sesiones construida con React, TypeScrip
      created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
    );
 
-   -- Habilitar Row Level Security (RLS) - opcional según tus necesidades
+   -- Enable Row Level Security (RLS) - optional depending on your needs
    ALTER TABLE session_notes ENABLE ROW LEVEL SECURITY;
 
-   -- Política para permitir lectura y escritura pública (ajusta según tu caso)
+   -- Policy to allow public read and write access (adjust according to your case)
    CREATE POLICY "Allow public read access" ON session_notes FOR SELECT USING (true);
    CREATE POLICY "Allow public insert access" ON session_notes FOR INSERT WITH CHECK (true);
    CREATE POLICY "Allow public delete access" ON session_notes FOR DELETE USING (true);
    ```
 
-4. **Ejecutar la aplicación en modo desarrollo:**
+4. **Run the application in development mode:**
 
    ```bash
    npm run dev
    ```
 
-5. **Abrir en el navegador:**
-   La aplicación estará disponible en `http://localhost:5173` (o el puerto que Vite asigne).
+5. **Open in browser:**
+   The application will be available at `http://localhost:5173` (or the port that Vite assigns).
 
-## b. URL del Proyecto Supabase
+## b. Supabase Project URL
 
-**Nota:** Por favor, actualiza esta sección con la URL real de tu proyecto Supabase.
+**Note:** Please update this section with your actual Supabase project URL.
 
 ```
-https://[tu-proyecto-id].supabase.co
+https://[your-project-id].supabase.co
 ```
 
-Para obtener tu URL:
+To get your URL:
 
-1. Ve a tu proyecto en Supabase Dashboard
-2. Navega a Settings → API
-3. Copia la "Project URL"
+1. Go to your project in Supabase Dashboard
+2. Navigate to Settings → API
+3. Copy the "Project URL"
 
-## c. Suposiciones Realizadas
+## c. Assumptions Made
 
-1. **Estructura de la tabla `session_notes`:**
+1. **`session_notes` table structure:**
 
-   - `id`: UUID generado automáticamente
-   - `client_name`: Texto requerido (nombre del cliente)
-   - `session_date`: Fecha de la sesión (formato DATE)
-   - `notes`: Texto con las notas (máximo 500 caracteres)
-   - `duration`: Duración en minutos (entre 15 y 120)
-   - `created_at`: Timestamp automático
+   - `id`: Automatically generated UUID
+   - `client_name`: Required text (client name)
+   - `session_date`: Session date (DATE format)
+   - `notes`: Text with notes (maximum 500 characters)
+   - `duration`: Duration in minutes (between 15 and 120)
+   - `created_at`: Automatic timestamp
 
-2. **Validaciones del lado del cliente:**
+2. **Client-side validations:**
 
-   - La duración debe estar entre 15 y 120 minutos
-   - Las notas tienen un límite de 500 caracteres
-   - El nombre del cliente es obligatorio
-   - La fecha de sesión es obligatoria
+   - Duration must be between 15 and 120 minutes
+   - Notes have a limit of 500 characters
+   - Client name is required
+   - Session date is required
 
-3. **Políticas de acceso:**
+3. **Access policies:**
 
-   - Se asume que las políticas RLS (Row Level Security) están configuradas para permitir acceso público a lectura, inserción y eliminación. **Importante:** En producción, deberías implementar autenticación y políticas de seguridad apropiadas.
+   - It is assumed that RLS (Row Level Security) policies are configured to allow public access for reading, inserting, and deleting. **Important:** In production, you should implement authentication and appropriate security policies.
 
-4. **Variables de entorno:**
+4. **Environment variables:**
 
-   - Las credenciales de Supabase se manejan a través de variables de entorno para mantener la seguridad
-   - Las variables deben usar el prefijo `VITE_` para ser accesibles en el código del cliente (requisito de Vite)
+   - Supabase credentials are managed through environment variables to maintain security
+   - Variables must use the `VITE_` prefix to be accessible in client code (Vite requirement)
 
-5. **Interfaz de usuario:**
-   - La aplicación usa Material-UI con tema oscuro
-   - No se implementó autenticación de usuarios (asumiendo uso directo o demo)
+5. **User interface:**
+   - The application uses Material-UI with a dark theme
+   - User authentication was not implemented (assuming direct use or demo)
 
-## Scripts Disponibles
+## Available Scripts
 
-- `npm run dev` - Inicia el servidor de desarrollo
-- `npm run build` - Construye la aplicación para producción
-- `npm run preview` - Previsualiza el build de producción
-- `npm run lint` - Ejecuta el linter ESLint
+- `npm run dev` - Start the development server
+- `npm run build` - Build the application for production
+- `npm run preview` - Preview the production build
+- `npm run lint` - Run the ESLint linter
 
-## Estructura del Proyecto
+## Project Structure
 
 ```
 session-notes/
 ├── src/
-│   ├── components/      # Componentes React (NoteForm, NotesList)
-│   ├── utils/           # Utilidades (supabase client, hooks, interfaces)
-│   ├── App.tsx          # Componente principal
-│   └── main.tsx         # Punto de entrada
-├── public/              # Archivos estáticos
-├── package.json         # Dependencias y scripts
-└── .env                 # Variables de entorno (no incluido en git)
+│   ├── components/      # React components (NoteForm, NotesList)
+│   ├── utils/           # Utilities (supabase client, hooks, interfaces)
+│   ├── App.tsx          # Main component
+│   └── main.tsx         # Entry point
+├── public/              # Static files
+├── package.json         # Dependencies and scripts
+└── .env                 # Environment variables (not included in git)
 ```
